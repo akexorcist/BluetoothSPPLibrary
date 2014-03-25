@@ -2,7 +2,7 @@ Android-BluetoothSPPLibrary
 ===========================
 
 
-[![BluetoothSPP Library](https://github.com/akexorcist/Android-BluetoothSPPLibrary/blob/master/header.png)]
+[![BluetoothSPP Library](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/header.png)]
 
 
 Bluetooth Serial Port Profile which comfortable to developer application to communication with microcontroller via bluetooth.
