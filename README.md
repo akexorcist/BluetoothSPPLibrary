@@ -75,7 +75,7 @@ bt.startService(BluetoothState.DEVICE_ANDROID);
 ```
 
 
-![Bluetooth module with SPP](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/Connection.png)
+![Communicate with android](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/Connection.png)
 
 
 For connection with any microcontroller which communication with bluetooth serial port profile module
@@ -84,7 +84,7 @@ bt.startService(BluetoothState.DEVICE_OTHER);
 ```
 
 
-![Bluetooth module with SPP](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/Connection2.png)
+![Communicate with microcontroller](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/Connection2.png)
 
 
 ![Bluetooth module with SPP](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/BlueStick.png)
@@ -233,20 +233,49 @@ button with id name = "button_scan"
 </RelativeLayout>
 ```
 
-![Bluetooth module with SPP](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/005.png)
+![Custom Device List Layout](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/005.png)
 
 
-But if you don't need to create layout file. You just want to change color theme in device list layout. You can use bundle to change layout color on device list. In addition, you can define string on this layout too!
+But if you don't need to create layout file. You just want to change only text on device list layout. You can use bundle to change text on device list
+
+![Custom Device List Text](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/006.png)
+
+![Custom Device List Text](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/007.png)
+
+![Custom Device List Text](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/008.png)
+
+![Custom Device List Text](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/009.png)
+
+```java
+Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+intent.putExtra("bluetooth_devices", "Bluetooth devices");
+intent.putExtra("no_devices_found", "No device");
+intent.putExtra("scanning", "กำลังทำการค้นหา");
+intent.putExtra("scan_for_devices", "Search");
+intent.putExtra("select_device", "Select");
+startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+```
+
+![Custom Device List Text](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/010.png)
 
 
 
 
+License
+--------------
 
+Copyright (c) 2014 Akexorcist
 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
+   http://www.apache.org/licenses/LICENSE-2.0
 
-
-
-
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 
