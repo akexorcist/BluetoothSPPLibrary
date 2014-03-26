@@ -233,7 +233,20 @@ button with id name = "button_scan"
 </RelativeLayout>
 ```
 
-![Bluetooth module with SPP](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/Connection.png)
+![Bluetooth module with SPP](https://raw.githubusercontent.com/akexorcist/Android-BluetoothSPPLibrary/master/005.png)
+
+
+But if you don't need to create layout file. You just want to change color theme in device list layout. You can use bundle to change layout color on device list. In addition, you can define string on this layout too!
+
+
+
+
+
+
+
+
+
+
 
 
 
