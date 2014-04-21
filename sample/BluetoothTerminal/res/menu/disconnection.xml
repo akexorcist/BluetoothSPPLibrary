@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.akexorcist.btterminal.Main" >
+
+    <item
+        android:id="@+id/menu_disconnect"
+        android:orderInCategory="100"
+        android:title="Disconnect" 
+        app:showAsAction="never"/>
+
+</menu>

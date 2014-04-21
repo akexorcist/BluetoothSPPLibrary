@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="app.akexorcist.btterminal.Main" >
+
+    <item
+        android:id="@+id/menu_android_connect"
+        android:orderInCategory="100"
+        android:title="Connect with android device" 
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_device_connect"
+        android:orderInCategory="100"
+        android:title="Connect with any device"
+        app:showAsAction="never"/>
+
+</menu>
