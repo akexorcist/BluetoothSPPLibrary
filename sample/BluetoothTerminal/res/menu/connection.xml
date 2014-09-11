@@ -6,13 +6,11 @@
     <item
         android:id="@+id/menu_android_connect"
         android:orderInCategory="100"
-        android:title="Connect with android device" 
-        app:showAsAction="never"/>
+        android:title="Connect with android device"  />
 
     <item
         android:id="@+id/menu_device_connect"
         android:orderInCategory="100"
-        android:title="Connect with any device"
-        app:showAsAction="never"/>
+        android:title="Connect with any device" />
 
 </menu>

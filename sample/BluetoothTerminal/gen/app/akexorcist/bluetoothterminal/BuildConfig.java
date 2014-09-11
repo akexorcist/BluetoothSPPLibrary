@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package app.akexorcist.btterminal;
+package app.akexorcist.bluetoothterminal;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

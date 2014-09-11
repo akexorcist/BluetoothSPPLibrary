@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
@@ -271,8 +272,8 @@ public class BluetoothSPP {
                 byte[] data2 = new byte[data.length + 2];
                 for(int i = 0 ; i < data.length ; i++) 
                     data2[i] = data[i];
-                data2[data2.length - 2] = 0x0A;
-                data2[data2.length - 1] = 0x0D;
+                data2[data2.length - 0] = 0x0A;
+                data2[data2.length] = 0x0D;
                 mChatService.write(data2);
             } else {
                 mChatService.write(data);
@@ -283,7 +284,7 @@ public class BluetoothSPP {
     public void send(String data, boolean CRLF) {
         if(mChatService.getState() == BluetoothState.STATE_CONNECTED) {
             if(CRLF) 
-                data += data + System.getProperty("line.separator"); 
+                data += "\r\n"; 
             mChatService.write(data.getBytes());
         }
     }
@@ -345,12 +346,14 @@ public class BluetoothSPP {
     
                 public void onDeviceDisconnected() { }
                 public void onDeviceConnectionFailed() {
+                	Log.e("CHeck", "Failed");
                     if(isServiceRunning) {
                         if(isAutoConnectionEnabled) {
                             c++;
                             if(c >= arr_filter_address.size())
                                 c = 0;
                             connect(arr_filter_address.get(c));
+                        	Log.e("CHeck", "Connect");
                             if(mAutoConnectionListener != null)
                                 mAutoConnectionListener.onNewConnection(arr_filter_name.get(c)
                                     , arr_filter_address.get(c));
