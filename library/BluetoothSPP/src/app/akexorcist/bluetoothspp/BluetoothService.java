@@ -1,11 +1,11 @@
 /*
- * Copyright 2014 Akexorcist
+ * Copyright (C) 2009 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,7 @@ import android.util.Log;
 
 @SuppressLint("NewApi")
 public class BluetoothService {
-	// Debugging
+    // Debugging
     private static final String TAG = "Bluetooth Service";
     
     // Name for the SDP record when creating server socket
@@ -43,9 +43,9 @@ public class BluetoothService {
     
     // Unique UUID for this application
     private static final UUID UUID_ANDROID_DEVICE =
-    		UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+            UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private static final UUID UUID_OTHER_DEVICE =
-    		UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     
     // Member fields
     private final BluetoothAdapter mAdapter;
@@ -59,7 +59,7 @@ public class BluetoothService {
     // Constructor. Prepares a new BluetoothChat session
     // context : The UI Activity Context
     // handler : A Handler to send messages back to the UI Activity
-	public BluetoothService(Context context, Handler handler) {
+    public BluetoothService(Context context, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = BluetoothState.STATE_NONE;
         mHandler = handler;
@@ -154,7 +154,7 @@ public class BluetoothService {
     // Stop all threads
     public synchronized void stop() {
         if (mConnectThread != null) {
-        	mConnectThread.cancel();
+            mConnectThread.cancel();
             mConnectThread = null;
         }
 
@@ -165,7 +165,7 @@ public class BluetoothService {
 
         if (mSecureAcceptThread != null) {
             mSecureAcceptThread.cancel();
-        	mSecureAcceptThread.kill();
+            mSecureAcceptThread.kill();
             mSecureAcceptThread = null;
         }
         setState(BluetoothState.STATE_NONE);
@@ -211,10 +211,10 @@ public class BluetoothService {
 
             // Create a new listening server socket
             try {
-            	if(isAndroid)
-                	tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_ANDROID_DEVICE);
-            	else
-                	tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_OTHER_DEVICE);
+                if(isAndroid)
+                    tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_ANDROID_DEVICE);
+                else
+                    tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_OTHER_DEVICE);
             } catch (IOException e) { }
             mmServerSocket = tmp;
         }
@@ -264,7 +264,7 @@ public class BluetoothService {
         }
 
         public void kill() {
-        	isRunning = false;
+            isRunning = false;
         }
     }
 
@@ -284,10 +284,10 @@ public class BluetoothService {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
-            	if(BluetoothService.this.isAndroid)
-            		tmp = device.createRfcommSocketToServiceRecord(UUID_ANDROID_DEVICE);
-            	else
-            		tmp = device.createRfcommSocketToServiceRecord(UUID_OTHER_DEVICE);
+                if(BluetoothService.this.isAndroid)
+                    tmp = device.createRfcommSocketToServiceRecord(UUID_ANDROID_DEVICE);
+                else
+                    tmp = device.createRfcommSocketToServiceRecord(UUID_OTHER_DEVICE);
             } catch (IOException e) { }
             mmSocket = tmp;
         }
@@ -355,20 +355,20 @@ public class BluetoothService {
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
-                	int data = mmInStream.read();
-                	if(data == 0x0A) { 
-                	} else if(data == 0x0D) {
-                		buffer = new byte[arr_byte.size()];
-                		for(int i = 0 ; i < arr_byte.size() ; i++) {
-                			buffer[i] = arr_byte.get(i).byteValue();
-                		}
+                    int data = mmInStream.read();
+                    if(data == 0x0A) { 
+                    } else if(data == 0x0D) {
+                        buffer = new byte[arr_byte.size()];
+                        for(int i = 0 ; i < arr_byte.size() ; i++) {
+                            buffer[i] = arr_byte.get(i).byteValue();
+                        }
                         // Send the obtained bytes to the UI Activity
                         mHandler.obtainMessage(BluetoothState.MESSAGE_READ
-                        		, buffer.length, -1, buffer).sendToTarget();
+                                , buffer.length, -1, buffer).sendToTarget();
                         arr_byte = new ArrayList<Integer>();
-                	} else {
-                    	arr_byte.add(data);
-                	}
+                    } else {
+                        arr_byte.add(data);
+                    }
                 } catch (IOException e) {
                     connectionLost();
                     // Start the service over to restart listening mode
@@ -381,16 +381,16 @@ public class BluetoothService {
         // Write to the connected OutStream.
         // @param buffer  The bytes to write
         public void write(byte[] buffer) {
-            try {
-            	byte[] buffer2 = new byte[buffer.length + 2];
-            	for(int i = 0 ; i < buffer.length ; i++) 
-            		buffer2[i] = buffer[i];
-            	buffer2[buffer2.length - 2] = 0x0A;
-            	buffer2[buffer2.length - 1] = 0x0D;
-                mmOutStream.write(buffer2);
+            try {/*
+                byte[] buffer2 = new byte[buffer.length + 2];
+                for(int i = 0 ; i < buffer.length ; i++) 
+                    buffer2[i] = buffer[i];
+                buffer2[buffer2.length - 2] = 0x0A;
+                buffer2[buffer2.length - 1] = 0x0D;*/
+                mmOutStream.write(buffer);
                 // Share the sent message back to the UI Activity
                 mHandler.obtainMessage(BluetoothState.MESSAGE_WRITE
-                		, -1, -1, buffer).sendToTarget();
+                        , -1, -1, buffer).sendToTarget();
             } catch (IOException e) { }
         }
 
