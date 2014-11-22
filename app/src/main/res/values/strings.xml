@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BluetoothSPP</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_listener">ListenerActivity</string>
+    <string name="title_activity_auto_connect">AutoConnectActivity</string>
+    <string name="title_activity_device_list">DeviceListActivity</string>
+    <string name="title_activity_terminal">TerminalActivity</string>
+
+</resources>
