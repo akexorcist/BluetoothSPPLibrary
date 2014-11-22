@@ -36,11 +36,10 @@ Simple Usage
 • Import this library to your workspace and include in to your android project
 
 
-• Declare permission for library
+• You need to merge android manifest on this library to your project by declare like this on project.properties
 
-```xml
-<uses-permission android:name="android.permission.BLUETOOTH" />
-<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+```java
+manifestmerger.enabled=true
 ```
 
 • Declare BluetoothSPP like this
@@ -124,13 +123,13 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-• If you want to send any data
+• If you want to send any data. boolean parameter is mean that data will send with ending by LF and CR or not. If yes your data will added by LF & CR
 ```java
-bt.send("Message");
+bt.send("Message", true);
 ```
 or
 ```java
-bt.send(new byte[] { 0x30, 0x38, ....});
+bt.send(new byte[] { 0x30, 0x38, ....}, false);
 ```
 
 • Listener for data receiving
