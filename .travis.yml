@@ -1,0 +1,14 @@
+language: android
+jdk: oraclejdk7
+
+android:
+  components:
+    - build-tools-21.1.2
+
+notifications:
+  email: false
+  
+before_install:
+ - chmod +x gradlew
+ 
+script: ./gradlew clean
