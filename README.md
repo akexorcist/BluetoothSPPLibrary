@@ -28,8 +28,9 @@ Feature
 
 
 Download
+--------------
 
-Maven:
+Maven
 ```
 <dependency>
   <groupId>com.akexorcist</groupId>
@@ -38,7 +39,7 @@ Maven:
 </dependency>
 ```
 
-Gradle:
+Gradle
 ```
 compile 'com.akexorcist:bluetoothspp:1.0.0'
 ```
