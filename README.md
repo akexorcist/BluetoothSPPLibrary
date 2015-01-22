@@ -11,7 +11,6 @@ This libraly include all important methods for serial port profile on bluetooth 
 
 
 
-
 Feature
 --------------
 
@@ -28,6 +27,21 @@ Feature
 • Listener for receive data from connection device
 
 
+Download
+
+Maven:
+```
+<dependency>
+  <groupId>com.akexorcist</groupId>
+  <artifactId>bluetoothspp</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Gradle:
+```
+compile 'com.akexorcist:bluetoothspp:1.0.0'
+```
 
 
 Simple Usage
@@ -36,10 +50,11 @@ Simple Usage
 • Import this library to your workspace and include in to your android project
 
 
-• You need to merge android manifest on this library to your project by declare like this on project.properties
+• Declare permission for library
 
-```java
-manifestmerger.enabled=true
+```xml
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 ```
 
 • Declare BluetoothSPP like this
