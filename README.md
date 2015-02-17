@@ -49,7 +49,9 @@ compile 'com.akexorcist:bluetoothspp:1.0.0'
 Simple Usage
 --------------
 
-• Import this library to your workspace and include in to your android project
+• Import this library to your workspace and include in to your android project 
+For Eclipse ADT : Download this library and import into your workspace and include this library to your project
+For Android Studio : Use Gradle to download this library from Maven
 
 
 • Declare permission for library
