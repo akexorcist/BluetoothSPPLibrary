@@ -84,6 +84,9 @@ public class BluetoothSPP {
     public interface AutoConnectionListener {
         public void onAutoConnectionStarted();
         public void onNewConnection(String name, String address);
+        public void onDeviceConnected(String name, String address);
+        public void onDeviceDisconnected();
+        public void onDeviceConnectionFailed();
     }
     
     public boolean isBluetoothAvailable() {
@@ -342,11 +345,19 @@ public class BluetoothSPP {
                 public void onDeviceConnected(String name, String address) {
                     bcl = null;
                     isAutoConnecting = false;
+                    if(mAutoConnectionListener != null)
+                        mAutoConnectionListener.onDeviceConnected(name,address);
                 }
     
-                public void onDeviceDisconnected() { }
+                public void onDeviceDisconnected() {
+                    if(mAutoConnectionListener != null)
+                        mAutoConnectionListener.onDeviceDisconnected();;
+                }
                 public void onDeviceConnectionFailed() {
                 	Log.e("CHeck", "Failed");
+                    if(mAutoConnectionListener != null)
+                        mAutoConnectionListener.onDeviceConnectionFailed();
+
                     if(isServiceRunning) {
                         if(isAutoConnectionEnabled) {
                             c++;

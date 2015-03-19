@@ -71,6 +71,18 @@ public class AutoConnectActivity extends Activity {
             public void onAutoConnectionStarted() {
                 Log.i("Check", "Auto menu_connection started");
             }
+
+            public void onDeviceConnected(String name, String address) {
+                Log.i("Check", "Auto menu_connection Device Connected: " + name + " - " + address);
+            }
+
+            public void onDeviceDisconnected() {
+                Log.i("Check", "Auto menu_connection Device Disconnected");
+            }
+
+            public void onDeviceConnectionFailed() {
+                Log.i("Check", "Auto menu_connection Device Connection Failed");
+            }
         });
 
         Button btnConnect = (Button)findViewById(R.id.btnConnect);
