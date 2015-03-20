@@ -58,8 +58,9 @@ public class BluetoothSPP {
     
     private String keyword = "";
     private boolean isAndroid = BluetoothState.DEVICE_ANDROID;
-    
-    private BluetoothConnectionListener bcl;
+
+    // This is where we store the callback if AutoConnection is enabled
+    private BluetoothConnectionListener mBluetoothConnectionListenerSecondary = null;
     private int c = 0;
     
     public BluetoothSPP(Context context) {
@@ -222,6 +223,11 @@ public class BluetoothSPP {
     
     public void stopAutoConnect() {
         isAutoConnectionEnabled = false;
+
+        // Restore the previous callback
+        mBluetoothConnectionListener = mBluetoothConnectionListenerSecondary;
+
+
     }
     
     public void connect(Intent data) {
@@ -255,7 +261,12 @@ public class BluetoothSPP {
     }
     
     public void setBluetoothConnectionListener (BluetoothConnectionListener listener) {
-        mBluetoothConnectionListener = listener;
+        // We can't replace the primary callback if AutoConnection is enabled
+        if (isAutoConnectionEnabled) {
+            mBluetoothConnectionListenerSecondary = listener;
+        } else {
+            mBluetoothConnectionListener = listener;
+        }
     }
     
     public void setAutoConnectionListener(AutoConnectionListener listener) {
@@ -337,14 +348,26 @@ public class BluetoothSPP {
                     arr_filter_name.add(arr_name[i]);
                 }
             }
-    
-            bcl = new BluetoothConnectionListener() {
+
+            // Save the previously existing callback
+            mBluetoothConnectionListenerSecondary = mBluetoothConnectionListener;
+
+            mBluetoothConnectionListener = new BluetoothConnectionListener() {
                 public void onDeviceConnected(String name, String address) {
-                    bcl = null;
                     isAutoConnecting = false;
+                    // Run the secondary callback
+                    if(mBluetoothConnectionListenerSecondary != null) {
+                        mBluetoothConnectionListenerSecondary.onDeviceConnected(name,address);
+                    }
                 }
     
-                public void onDeviceDisconnected() { }
+                public void onDeviceDisconnected() {
+                    // Run the secondary callback
+                    if(mBluetoothConnectionListenerSecondary != null) {
+                        mBluetoothConnectionListenerSecondary.onDeviceDisconnected();
+                    }
+
+                }
                 public void onDeviceConnectionFailed() {
                 	Log.e("CHeck", "Failed");
                     if(isServiceRunning) {
@@ -358,14 +381,18 @@ public class BluetoothSPP {
                                 mAutoConnectionListener.onNewConnection(arr_filter_name.get(c)
                                     , arr_filter_address.get(c));
                         } else {
-                            bcl = null;
                             isAutoConnecting = false;
                         }
+
+                        // Run the secondary callback (can't fail is AutoConnection is disabled)
+                        if(mBluetoothConnectionListenerSecondary != null) {
+                            mBluetoothConnectionListenerSecondary.onDeviceConnectionFailed();
+                        }
+
                     }
                 }
             };
 
-            setBluetoothConnectionListener(bcl);
             c = 0;
             if(mAutoConnectionListener != null)
                 mAutoConnectionListener.onNewConnection(arr_name[c], arr_address[c]);
