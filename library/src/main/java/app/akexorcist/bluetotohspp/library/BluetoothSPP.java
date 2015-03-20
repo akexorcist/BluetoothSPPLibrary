@@ -335,7 +335,6 @@ public class BluetoothSPP {
         if(!isAutoConnectionEnabled) {
             keyword = keywordName;
             isAutoConnectionEnabled = true;
-            isAutoConnecting = true;
             if(mAutoConnectionListener != null)
                 mAutoConnectionListener.onAutoConnectionStarted();
             final ArrayList<String> arr_filter_address = new ArrayList<String>();
@@ -375,8 +374,9 @@ public class BluetoothSPP {
                             c++;
                             if(c >= arr_filter_address.size())
                                 c = 0;
+                            isAutoConnecting = true;
                             connect(arr_filter_address.get(c));
-                        	Log.e("CHeck", "Connect");
+                            Log.e("CHeck", "Connect");
                             if(mAutoConnectionListener != null)
                                 mAutoConnectionListener.onNewConnection(arr_filter_name.get(c)
                                     , arr_filter_address.get(c));
@@ -394,12 +394,17 @@ public class BluetoothSPP {
             };
 
             c = 0;
-            if(mAutoConnectionListener != null)
-                mAutoConnectionListener.onNewConnection(arr_name[c], arr_address[c]);
-            if(arr_filter_address.size() > 0) 
-                connect(arr_filter_address.get(c));
-            else 
+            if (arr_filter_address.size() > 0) {
+                if (!isConnected) {
+                    // Connect() breaks when it's already connected
+                    if(mAutoConnectionListener != null)
+                        mAutoConnectionListener.onNewConnection(arr_name[c], arr_address[c]);
+                    isAutoConnecting = true;
+                    connect(arr_filter_address.get(c));
+                }
+            } else { 
                 Toast.makeText(mContext, "Device name mismatch", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
