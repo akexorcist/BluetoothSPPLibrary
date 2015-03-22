@@ -222,12 +222,11 @@ public class BluetoothSPP {
     };
     
     public void stopAutoConnect() {
-        isAutoConnectionEnabled = false;
-
-        // Restore the previous callback
-        mBluetoothConnectionListener = mBluetoothConnectionListenerSecondary;
-
-
+        if (isAutoConnectionEnabled) {
+            isAutoConnectionEnabled = false;
+            // Restore the previous callback
+            mBluetoothConnectionListener = mBluetoothConnectionListenerSecondary;
+        }
     }
     
     public void connect(Intent data) {
