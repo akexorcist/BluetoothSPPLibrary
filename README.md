@@ -278,6 +278,15 @@ startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
 
 
 
+What's next?
+===========================
+- Connection Dialog 
+- Add Insecure Connection
+- Fix bug on this issue https://github.com/akexorcist/Android-BluetoothSPPLibrary/issues/21
+- Merge the code from https://github.com/akexorcist/Android-BluetoothSPPLibrary/pull/14 for a problem of auto connection
+- Human Readable Log https://github.com/akexorcist/Android-BluetoothSPPLibrary/issues/19
+
+
 
 License
 --------------
