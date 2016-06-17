@@ -228,7 +228,9 @@ public class BluetoothService {
                 try {
                     // This is a blocking call and will only return on a
                     // successful connection or an exception
-                    socket = mmServerSocket.accept();
+                    if (socket != null) {
+                    	socket = mmServerSocket.accept();
+                    }
                 } catch (IOException e) {
                     break;
                 }
@@ -258,8 +260,10 @@ public class BluetoothService {
 
         public void cancel() {
             try {
-                mmServerSocket.close();
-                mmServerSocket = null;
+            	if (mmServerSocket != null) {
+	                mmServerSocket.close();
+	                mmServerSocket = null;
+                }
             } catch (IOException e) { }
         }
 
