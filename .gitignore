@@ -217,3 +217,5 @@ pip-log.txt
 .idea/
 .gradle/
 *.iml
+
+app/manifest-merger-release-report.txt
