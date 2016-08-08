@@ -213,3 +213,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+.idea/
+.gradle/
+*.iml
+
+app/manifest-merger-release-report.txt
