@@ -215,7 +215,7 @@ public class BluetoothService {
                     tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_ANDROID_DEVICE);
                 else
                     tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME_SECURE, UUID_OTHER_DEVICE);
-            } catch (IOException e) { }
+            } catch (Exception e) { }
             mmServerSocket = tmp;
         }
 
@@ -229,7 +229,7 @@ public class BluetoothService {
                     // This is a blocking call and will only return on a
                     // successful connection or an exception
                     socket = mmServerSocket.accept();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     break;
                 }
 
@@ -260,7 +260,7 @@ public class BluetoothService {
             try {
                 mmServerSocket.close();
                 mmServerSocket = null;
-            } catch (IOException e) { }
+            } catch (Exception e) { }
         }
 
         public void kill() {
@@ -305,7 +305,10 @@ public class BluetoothService {
                 // Close the socket
                 try {
                     mmSocket.close();
-                } catch (IOException e2) { }
+                } catch (Exception e2) { }
+                connectionFailed();
+                return;
+            } catch (NullPointerException e) {
                 connectionFailed();
                 return;
             }
@@ -322,7 +325,7 @@ public class BluetoothService {
         public void cancel() {
             try {
                 mmSocket.close();
-            } catch (IOException e) { }
+            } catch (Exception e) { }
         }
     }
 
@@ -355,6 +358,18 @@ public class BluetoothService {
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
+                    //If the Socket is not connected then its LocalSocket and their Streams
+                    //will probably be null
+                    if (!mmSocket.isConnected()) {
+                        throw new IOException();
+                    }
+                    //Good way for testing if the InputStream
+                    //of the LocalSocket within the Socket has something
+                    //to read... however if this Stream is null we still
+                    //will get a NullPointerException...
+                    /*if (mmInStream.available() <= 0) {
+                        throw new IOException();
+                    }*/
                     int data = mmInStream.read();
                     if(data == 0x0A) { 
                     } else if(data == 0x0D) {
@@ -374,6 +389,9 @@ public class BluetoothService {
                     // Start the service over to restart listening mode
                     BluetoothService.this.start(BluetoothService.this.isAndroid);
                     break;
+                } catch (NullPointerException e) {
+                    connectionLost();
+                    break;
                 }
             }
         }
@@ -391,13 +409,13 @@ public class BluetoothService {
                 // Share the sent message back to the UI Activity
                 mHandler.obtainMessage(BluetoothState.MESSAGE_WRITE
                         , -1, -1, buffer).sendToTarget();
-            } catch (IOException e) { }
+            } catch (Exception e) { }
         }
 
         public void cancel() {
             try {
                 mmSocket.close();
-            } catch (IOException e) { }
+            } catch (Exception e) { }
         }
     }
 }
