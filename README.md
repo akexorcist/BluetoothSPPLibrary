@@ -121,7 +121,7 @@ startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
 
 don't forget declare library activty like this
 ```java
-<activity android:name="app.akexorcist.bluetoothspp.DeviceList" />
+<activity android:name="app.akexorcist.bluetotohspp.library.DeviceList" />
 ```
 
 • After intent to choose device activity and finish that activity. You need to check result data on onActivityResult
