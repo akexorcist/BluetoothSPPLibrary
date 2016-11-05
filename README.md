@@ -77,7 +77,7 @@ if(!bt.isBluetoothAvailable()) {
 ```java
 public void onStart() {
     super.onStart();
-    if(!bt.isBluetoothEnable()) {
+    if(!bt.isBluetoothEnabled()) {
         // Do somthing if bluetooth is disable
     } else {
         // Do something if bluetooth is already enable
