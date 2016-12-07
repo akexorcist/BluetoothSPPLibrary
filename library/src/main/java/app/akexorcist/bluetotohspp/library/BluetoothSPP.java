@@ -58,6 +58,7 @@ public class BluetoothSPP {
     
     private String keyword = "";
     private boolean isAndroid = BluetoothState.DEVICE_ANDROID;
+    private boolean mUseCarriageReturn = true;
     
     private BluetoothConnectionListener bcl;
     private int c = 0;
@@ -122,6 +123,7 @@ public class BluetoothSPP {
     
     public void setupService() {
         mChatService = new BluetoothService(mContext, mHandler);
+        mChatService.setUseCarriageReturn(mUseCarriageReturn);
     }
     
     public BluetoothAdapter getBluetoothAdapter() {
@@ -164,6 +166,10 @@ public class BluetoothSPP {
         stopService();
         startService(isAndroid);
         BluetoothSPP.this.isAndroid = isAndroid;
+    }
+
+    public void setUseCarriageReturn(boolean useCarriageReturn) {
+        mUseCarriageReturn = useCarriageReturn;
     }
     
     @SuppressLint("HandlerLeak")
@@ -269,10 +275,11 @@ public class BluetoothSPP {
     public void send(byte[] data, boolean CRLF) {
         if(mChatService.getState() == BluetoothState.STATE_CONNECTED) {
             if(CRLF) {
-                byte[] data2 = new byte[data.length + 2];
+                byte[] data2 = new byte[data.length + (mUseCarriageReturn ? 2 : 1)];
                 for(int i = 0 ; i < data.length ; i++) 
                     data2[i] = data[i];
-                data2[data2.length - 2] = 0x0A;
+                if (mUseCarriageReturn)
+                    data2[data2.length - 2] = 0x0A;
                 data2[data2.length - 1] = 0x0D;
                 mChatService.write(data2);
             } else {
@@ -283,8 +290,12 @@ public class BluetoothSPP {
     
     public void send(String data, boolean CRLF) {
         if(mChatService.getState() == BluetoothState.STATE_CONNECTED) {
-            if(CRLF) 
-                data += "\r\n"; 
+            if(CRLF) {
+                if (mUseCarriageReturn)
+                    data += "\r\n";
+                else
+                    data += "\n";
+            }
             mChatService.write(data.getBytes());
         }
     }

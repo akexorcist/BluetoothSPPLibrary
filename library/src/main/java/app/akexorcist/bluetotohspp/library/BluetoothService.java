@@ -55,6 +55,7 @@ public class BluetoothService {
     private ConnectedThread mConnectedThread;
     private int mState;
     private boolean isAndroid = BluetoothState.DEVICE_ANDROID;
+    private boolean mUseCarriageReturn = true;
         
     // Constructor. Prepares a new BluetoothChat session
     // context : The UI Activity Context
@@ -79,6 +80,14 @@ public class BluetoothService {
     // Return the current connection state. 
     public synchronized int getState() {
         return mState;
+    }
+
+    /**
+     * Set whether received messages should end with carriage return followed by newline or just newline
+     * @param useCarriageReturn true to use carriage return
+     */
+    public synchronized void setUseCarriageReturn(boolean useCarriageReturn) {
+        mUseCarriageReturn = useCarriageReturn;
     }
 
     // Start the chat service. Specifically start AcceptThread to begin a
@@ -352,12 +361,15 @@ public class BluetoothService {
             byte[] buffer;
             ArrayList<Integer> arr_byte = new ArrayList<Integer>();
 
+            byte terminator = mUseCarriageReturn ? (byte)0x0A : (byte)0x0D;
+
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
                     int data = mmInStream.read();
-                    if(data == 0x0A) { 
-                    } else if(data == 0x0D) {
+
+                    if(mUseCarriageReturn && data == 0x0A) {
+                    } else if((!mUseCarriageReturn && data == 0x0A) || data == 0x0D) {
                         buffer = new byte[arr_byte.size()];
                         for(int i = 0 ; i < arr_byte.size() ; i++) {
                             buffer[i] = arr_byte.get(i).byteValue();
