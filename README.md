@@ -160,7 +160,7 @@ bt.setOnDataReceivedListener(new OnDataReceivedListener() {
 });
 ```
 
-• Listener for bluetooth connection atatus
+• Listener for bluetooth connection status
 ```java
 bt.setBluetoothConnectionListener(new BluetoothConnectionListener() {
     public void onDeviceConnected(String name, String address) {
