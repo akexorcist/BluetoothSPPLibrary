@@ -84,6 +84,10 @@ public void onStart() {
     }
 }
 ```
+• setup bluetooth
+```java
+bt.setupService();
+```
 
 • if bluetooth is ready call this method to start service
 
