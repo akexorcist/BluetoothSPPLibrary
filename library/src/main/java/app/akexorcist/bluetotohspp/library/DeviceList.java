@@ -19,7 +19,6 @@ package app.akexorcist.bluetotohspp.library;
 
 import java.util.Set;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -39,7 +38,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-@SuppressLint("NewApi")
 public class DeviceList extends Activity {
     // Debugging
     private static final String TAG = "BluetoothSPP";
@@ -49,7 +47,6 @@ public class DeviceList extends Activity {
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
     private Set<BluetoothDevice> pairedDevices;
-    private Button scanButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +65,7 @@ public class DeviceList extends Activity {
         setResult(Activity.RESULT_CANCELED);
         
         // Initialize the button to perform device discovery
-        scanButton = (Button) findViewById(R.id.button_scan);
+        Button scanButton = findViewById(R.id.button_scan);
         String strScanDevice = getIntent().getStringExtra("scan_for_devices");
         if(strScanDevice == null) 
         	strScanDevice = "SCAN FOR DEVICES";
