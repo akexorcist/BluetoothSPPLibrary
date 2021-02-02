@@ -167,7 +167,7 @@ public class BluetoothSPP {
     }
     
     @SuppressLint("HandlerLeak")
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(Message msg) {
             switch (msg.what) {
             case BluetoothState.MESSAGE_WRITE:
